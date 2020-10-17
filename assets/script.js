@@ -37,3 +37,9 @@ $("#searchBtn").on("click", function () {
             makeList();
         });
 });
+
+// Use makeList function to add classes to list items and append city name
+function makeList() {
+    let listItem = $("<li>").addClass("list-group-item").text(city);
+    $(".list").append(listItem);
+  }
