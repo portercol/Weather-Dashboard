@@ -80,7 +80,20 @@ function currentForecast() {
     $.ajax({
         url: queryUrl2,
         method: "GET"
-    }).then(function(res){
+    }).then(function (res) {
         console.log(res);
+        // Empty the forecast input being displayed after use
+        $("#forecast").empty();
+
+        // Store the response list in a variable
+        var listRes = res.list;
+        for (var i = 0; i < listRes.length; i++) {
+
+            // Using the indexOf method to return the index of the res.list
+            // && if value is not found 'return -1'
+            if (listRes[i].dt_txt.indexOf("12:00:00") !== -1) {
+                console.log(listRes);
+            }
+        }
     })
 }
