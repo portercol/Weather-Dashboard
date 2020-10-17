@@ -30,16 +30,24 @@ $("#searchBtn").on("click", function () {
         method: "GET"
     })
     // Promise statment to get response and store fahrenheit temp values
-        .then(function (response) {
-            let tempF = (response.main.temp - 273.15) * 1.80 + 32;
-            getCurrentConditions(response);
-            getCurrentForecast(response);
+        .then(function (res) {
+            var tempF = (res.main.temp - 273.15) * 1.80 + 32;
+            currentCondition(res);
+            currentForecast(res);
             makeList();
         });
 });
 
 // Use makeList function to add classes to list items and append city name
 function makeList() {
-    let listItem = $("<li>").addClass("list-group-item").text(city);
+    var listItem = $("<li>").addClass("list-group-item").text(city);
     $(".list").append(listItem);
+};
+
+function currentCondition(res) {
+    // Convert the tempurature to fahrenheit *store in var to use above*
+    var tempF = (res.main.temp - 273.15) * 1.80 + 32;
+    tempF = Math.floor(tempF);
+  
+    $('#currentCity').empty();
   }
