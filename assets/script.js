@@ -9,7 +9,20 @@ var date = new Date();
 $("#searchTerm").keypress(function (event) {
     // keyCode === 13 allows user to use the 'return' key to return weather data
     if (event.keyCode === 13) {
-      event.preventDefault();
-      $("#searchBtn").click();
+        event.preventDefault();
+        $("#searchBtn").click();
     }
-  });
+});
+
+// jQuery onclick function for button click
+$("#searchBtn").on("click", function () {
+// added 'show' class to 5 day forecast after onclick
+    $('#forecastH5').addClass('show');
+    // Get the city input value and store it in a variable 
+    city = $("#searchTerm").val();
+    // This clears the input box
+    $("#searchTerm").val("");
+    // Store weather URL, city value and API in variable
+    const queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + apiKey;
+
+});
