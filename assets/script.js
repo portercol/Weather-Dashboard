@@ -16,7 +16,7 @@ $("#searchTerm").keypress(function (event) {
 
 // jQuery onclick function for button click
 $("#searchBtn").on("click", function () {
-// added 'show' class to 5 day forecast after onclick
+    // added 'show' class to 5 day forecast after onclick
     $('#forecastH5').addClass('show');
     // Get the city input value and store it in a variable 
     city = $("#searchTerm").val();
@@ -29,7 +29,7 @@ $("#searchBtn").on("click", function () {
         url: queryUrl,
         method: "GET"
     })
-    // Promise statment to get response and store fahrenheit temp values
+        // Promise statment to get response and store fahrenheit temp values
         .then(function (res) {
             var tempF = (res.main.temp - 273.15) * 1.80 + 32;
             currentCondition(res);
@@ -44,10 +44,27 @@ function makeList() {
     $(".list").append(listItem);
 };
 
+// Use currentCondition function to convert temp into fahrenheit
+// && Empty out the current city being displayed after use
 function currentCondition(res) {
     // Convert the tempurature to fahrenheit *store in var to use above*
     var tempF = (res.main.temp - 273.15) * 1.80 + 32;
     tempF = Math.floor(tempF);
-  
+
     $('#currentCity').empty();
-  }
+
+    // Create and input the content to the dom using jQuery
+    const card = $("<div>").addClass("card");
+    const cardBody = $("<div>").addClass("card-body");
+    const city = $("<h4>").addClass("card-title").text(res.name);
+    const cityDate = $("<h4>").addClass("card-title").text(date.toLocaleDateString('en-US'));
+    const temp = $("<p>").addClass("card-text current-temp").text("Temperature: " + tempF + " °F");
+    const humidity = $("<p>").addClass("card-text current-humidity").text("Humidity: " + res.main.humidity + "%");
+    const wind = $("<p>").addClass("card-text current-wind").text("Wind Speed: " + res.wind.speed + " MPH");
+
+    // Append data stored in variables to the page
+    city.append(cityDate);
+    cardBody.append(city, temp, humidity, wind);
+    card.append(cardBody);
+    $("#currentCity").append(card);
+}
