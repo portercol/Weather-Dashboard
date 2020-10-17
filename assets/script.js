@@ -93,6 +93,10 @@ function currentForecast() {
             // && if value is not found 'return -1'
             if (listRes[i].dt_txt.indexOf("12:00:00") !== -1) {
                 console.log(listRes);
+
+                // Get the current temp and convert it into fahrenheit
+                let temp = (resList[i].main.temp - 273.15) * 1.80 + 32;
+                let tempF = Math.floor(temp);
             }
         }
     })
