@@ -11,7 +11,7 @@ $("#searchTerm").keypress(function (event) {
     if (event.keyCode === 13) {
         event.preventDefault();
         $("#searchBtn").click();
-    }
+    };
 });
 
 // jQuery onclick function for button click
@@ -24,5 +24,16 @@ $("#searchBtn").on("click", function () {
     $("#searchTerm").val("");
     // Store weather URL, city value and API in variable
     const queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + apiKey;
-
+    // AJAX get request using URL, City and API key
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    })
+    // Promise statment to get response and store fahrenheit temp values
+        .then(function (response) {
+            let tempF = (response.main.temp - 273.15) * 1.80 + 32;
+            getCurrentConditions(response);
+            getCurrentForecast(response);
+            makeList();
+        });
 });
