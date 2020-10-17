@@ -1,6 +1,9 @@
 // Store API Key in a variable
 const apiKey = "&appid=90236b1e6e8a32cef8f5058dea9b550c";
 
+// Store value of the input in variable
+var city = $("#searchTerm").val();
+
 // Store the current date data in a variable
 var date = new Date();
 
@@ -67,4 +70,17 @@ function currentCondition(res) {
     cardBody.append(city, temp, humidity, wind);
     card.append(cardBody);
     $("#currentCity").append(card);
+};
+
+// Use currentForecast function to make AJAX request for forecast and create and append content
+function currentForecast() {
+    // Store URL, city value and apiKey in variable to use in ajax request
+    var queryUrl2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey;
+    // Create AJAX GET request and promise
+    $.ajax({
+        url: queryUrl2,
+        method: "GET"
+    }).then(function(res){
+        console.log(res);
+    })
 }
