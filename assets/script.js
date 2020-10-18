@@ -74,30 +74,41 @@ function currentCondition(res) {
 
 // Use currentForecast function to make AJAX request for forecast and create and append content
 function currentForecast() {
-    // Store URL, city value and apiKey in variable to use in ajax request
-    var queryUrl2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey;
-    // Create AJAX GET request and promise
+
     $.ajax({
-        url: queryUrl2,
+        url: "https://api.openweathermap.org/data/2.5/forecast?q=" + city + apiKey,
         method: "GET"
     }).then(function (res) {
-        console.log(res);
-        // Empty the forecast input being displayed after use
-        $("#forecast").empty();
 
-        // Store the response list in a variable
-        var listRes = res.list;
-        for (var i = 0; i < listRes.length; i++) {
+        // Empty the forecast input being displayed after use
+        $('#forecast').empty();
+
+        // Store the response list in a variable && loop over the list length
+        var resList = res.list;
+        for (var i = 0; i < resList.length; i++) {
 
             // Using the indexOf method to return the index of the res.list
             // && if value is not found 'return -1'
-            if (listRes[i].dt_txt.indexOf("12:00:00") !== -1) {
-                console.log(listRes);
+            if (resList[i].dt_txt.indexOf("12:00:00") !== -1) {
 
-                // Get the current temp and convert it into fahrenheit
-                let temp = (resList[i].main.temp - 273.15) * 1.80 + 32;
-                let tempF = Math.floor(temp);
-            }
-        }
-    })
-}
+                // Get the current temp
+                // After fahrenheit conversion - store in varialbe
+                var temp = (resList[i].main.temp - 273.15) * 1.80 + 32;
+                var tempF = Math.floor(temp);
+
+                // Create and input the content to the dom using jQuery
+                const card = $("<div>").addClass("card col-md-2 ml-4 bg-primary text-white");
+                const cardBody = $("<div>").addClass("card-body p-3 forecastBody")
+                const temperature = $("<p>").addClass("card-text forecastTemp").text("Temperature: " + tempF + " °F");
+                const humidity = $("<p>").addClass("card-text forecastHumidity").text("Humidity: " + resList[i].main.humidity + "%");
+                const image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + resList[i].weather[0].icon + ".png")
+
+                // Append data stored in variables to the page
+                cardBody.append(image, temperature, humidity);
+                card.append(cardBody);
+                $("#forecast").append(card);
+
+            };
+        };
+    });
+};
